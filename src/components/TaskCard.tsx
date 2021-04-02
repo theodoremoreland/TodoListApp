@@ -1,25 +1,51 @@
-import React, { FC, ReactElement } from 'react';
-import {
-    View,
-    StyleSheet,
-    Text,
-} from 'react-native';
+// React
+import React, { FC, ReactElement, useState } from 'react';
+import { SafeAreaView, StyleSheet, TextInput } from "react-native";
 
-const TaskCard: FC<{list: Array<string>}> = ({list}) : ReactElement => {
+// Third Party
+import DatePicker from 'react-native-date-picker';
 
-return (
-<View style={styles.card}>
-    <Text>Placeholder text.</Text>
-</View>
-);
+interface ITask {
+    _id: number,
+    name: string,
+    note?: string,
+    dueDate: Date
+};
+
+const TaskCard: FC<ITask> = ({_id, name, dueDate}) : ReactElement => {
+
+    const [newTaskName, setNewTaskName] = useState<string>();
+    const [newNote, setNewNote] = useState<string>();
+    const [newDueDate, setNewDueDate] = useState<Date>();
+
+    return (
+        <SafeAreaView>
+            <TextInput
+                style={styles.input}
+                onChangeText={setNewTaskName}
+                value={newTaskName}
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={setNewNote}
+                value={newNote}
+                placeholder="Notes"
+                keyboardType="numeric"
+            />
+            <DatePicker
+                date={newDueDate}
+                onDateChange={setNewDueDate}
+            />
+        </SafeAreaView>
+    );
 };
 
 const styles = StyleSheet.create({
-card: {
-    backgroundColor: "green",
-    marginTop: 32,
-    paddingHorizontal: 24
-}
-});
-
+    input: {
+      height: 40,
+      margin: 12,
+      borderWidth: 1,
+    },
+  });
+  
 export default TaskCard;

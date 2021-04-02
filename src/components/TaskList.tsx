@@ -1,3 +1,4 @@
+// React
 import React, { FC, ReactElement } from 'react';
 import {
     FlatList,
@@ -5,21 +6,26 @@ import {
     Text,
 } from 'react-native';
 
-const TaskList: FC<{list: Array<string>}> = ({list}) : ReactElement => {
+interface ITask {
+    _id: number,
+    name: string,
+    dueDate: Date
+};
+
+const TaskList: FC<{list: Array<ITask>}> = ({list}) : ReactElement => {
 
     return (
         <FlatList
             style={styles.list}
             data={list}
-            renderItem={({item}) => <Text>{item}</Text>}
-            keyExtractor={item => item}
+            renderItem={({item}) => <Text>{item.name}</Text>}
+            keyExtractor={task => task.name}
         /> 
     );
 };
 
 const styles = StyleSheet.create({
     list: {
-        backgroundColor: "green",
         marginTop: 32,
         paddingHorizontal: 24
     }
