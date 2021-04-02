@@ -1,6 +1,12 @@
 // React
 import React, { FC, ReactElement, useState } from 'react';
-import { SafeAreaView, StyleSheet, TextInput } from "react-native";
+import { 
+    View,
+    StyleSheet,
+    Button,
+    Modal,
+    TextInput 
+} from "react-native";
 
 // Third Party
 import DatePicker from 'react-native-date-picker';
@@ -8,35 +14,58 @@ import DatePicker from 'react-native-date-picker';
 interface ITask {
     _id: number,
     name: string,
-    note?: string,
+    note: string,
     dueDate: Date
 };
 
-const TaskCard: FC<ITask> = ({_id, name, dueDate}) : ReactElement => {
+interface IProps {
+    task: ITask,
+    modalIsVisible: boolean
+    setModalIsVisible: (bool: boolean) => void,
+};
 
-    const [newTaskName, setNewTaskName] = useState<string>();
-    const [newNote, setNewNote] = useState<string>();
-    const [newDueDate, setNewDueDate] = useState<Date>();
+const TaskCard: FC<IProps> = ({task, modalIsVisible, setModalIsVisible}) : ReactElement => {
+    const { _id, name, note, dueDate } = task;
+    const [newTaskName, setNewTaskName] = useState<string>(name);
+    const [newNote, setNewNote] = useState<string>(note);
+    const [newDueDate, setNewDueDate] = useState<Date>(dueDate);
 
     return (
-        <SafeAreaView>
-            <TextInput
-                style={styles.input}
-                onChangeText={setNewTaskName}
-                value={newTaskName}
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={setNewNote}
-                value={newNote}
-                placeholder="Notes"
-                keyboardType="numeric"
-            />
-            <DatePicker
-                date={newDueDate}
-                onDateChange={setNewDueDate}
-            />
-        </SafeAreaView>
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalIsVisible}
+            onRequestClose={() => {
+                setModalIsVisible(!modalIsVisible);
+            }}
+        >
+            <View style={{ marginTop: 100, justifyContent: 'center' }}>
+                <TextInput
+                    
+                    style={styles.input}
+                    onChangeText={setNewTaskName}
+                    value={newTaskName}
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setNewNote}
+                    value={newNote}
+                    placeholder="Notes"
+                />
+                <DatePicker
+                    date={newDueDate}
+                    onDateChange={setNewDueDate}
+                />
+                <Button
+                    title="Add Task"
+                    onPress={ () => "" }
+                />
+                <Button
+                    title="Cancel"
+                    onPress={ () => setModalIsVisible(false) }
+                />
+            </View>
+        </Modal>
     );
 };
 
@@ -47,5 +76,5 @@ const styles = StyleSheet.create({
       borderWidth: 1,
     },
   });
-  
+
 export default TaskCard;
