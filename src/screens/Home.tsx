@@ -1,7 +1,6 @@
 // React
 import React, { FC, ReactElement, useContext, useState } from 'react';
 import { StyleSheet, View, Button, Text, Alert } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
 
 // Context
 import { ThemeContext } from '../App';
@@ -16,9 +15,12 @@ interface ITask {
     dueDate: Date
 };
 
+export const TodoListContext = React.createContext<Array<ITask> | []>([]);
+
 const Home: FC = () : ReactElement => {
     const context = useContext(ThemeContext);
     const [todos, setTodos] = useState<Array<ITask> | []>([]);
+    const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
 
     const addTask = (newTask : ITask) : void => {
         setTodos([...todos, newTask]);
@@ -29,7 +31,12 @@ const Home: FC = () : ReactElement => {
             <TaskList list={todos}/>
             <Button
                 title="Add Task"
-                onPress={ () => addTask({_id: 1, name: "hghg", dueDate: new Date()}) }
+                onPress={ () => setModalIsVisible(true) }
+            />
+            <TaskCard
+                task={{_id: 1, name: "hghg", note: "a note", dueDate: new Date()}}
+                modalIsVisible={modalIsVisible}
+                setModalIsVisible={setModalIsVisible}
             />
         </View>
     );
