@@ -3,9 +3,10 @@ import React, { FC, ReactElement, useState } from 'react';
 import { 
     View,
     StyleSheet,
-    Button,
+    TouchableOpacity,
     Modal,
-    TextInput 
+    Text,
+    TextInput
 } from "react-native";
 
 // Third Party
@@ -33,48 +34,76 @@ const TaskCard: FC<IProps> = ({task, modalIsVisible, setModalIsVisible}) : React
     return (
         <Modal
             animationType="slide"
-            transparent={true}
+            transparent={false}
             visible={modalIsVisible}
             onRequestClose={() => {
                 setModalIsVisible(!modalIsVisible);
             }}
-        >
-            <View style={{ marginTop: 100, justifyContent: 'center' }}>
+        >   
+            <View style={styles.modalHeader}>
+                <Text style={{color: "white", fontSize: 20}}>New Task</Text>
+            </View>
+            <View style={{ justifyContent: 'center' }}>
+                <Text>Name of task</Text>
                 <TextInput
-                    
                     style={styles.input}
                     onChangeText={setNewTaskName}
                     value={newTaskName}
+                    placeholder="What should be done?"
                 />
+                <Text>Note</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={setNewNote}
                     value={newNote}
-                    placeholder="Notes"
+                    placeholder="An important reminder about the task."
                 />
+                <Text>Due date</Text>
                 <DatePicker
                     date={newDueDate}
                     onDateChange={setNewDueDate}
                 />
-                <Button
-                    title="Add Task"
+                <TouchableOpacity
                     onPress={ () => "" }
-                />
-                <Button
-                    title="Cancel"
+                >
+                    <Text>Add Task</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
                     onPress={ () => setModalIsVisible(false) }
-                />
+                >
+                    <Text>Cancel</Text>
+                </TouchableOpacity>
             </View>
         </Modal>
     );
 };
 
 const styles = StyleSheet.create({
+    modal: {
+        backgroundColor: "black"
+    },
+    modalHeader: {
+        zIndex: 1,
+        elevation: 1,
+        position: "absolute",
+        top: 0,
+        backgroundColor: "blue",
+        height: 50,
+        width: "100%"
+    },
     input: {
       height: 40,
       margin: 12,
       borderWidth: 1,
+      flexShrink: 0
     },
+    button: {
+        height: 20,
+        width: 200,
+        borderRadius: 5,
+        backgroundColor: "white"
+    }
   });
 
 export default TaskCard;
