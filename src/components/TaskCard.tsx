@@ -11,6 +11,7 @@ import {
 
 // Third Party
 import DatePicker from 'react-native-date-picker';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface ITask {
     _id: number,
@@ -41,9 +42,17 @@ const TaskCard: FC<IProps> = ({task, modalIsVisible, setModalIsVisible}) : React
             }}
         >   
             <View style={styles.modalHeader}>
+                <TouchableOpacity
+                    
+                    onPress={ () => setModalIsVisible(false) }
+                >
+                    <Text>
+                        <Icon name="arrow-back" color="white" size={35}/>
+                    </Text>
+                </TouchableOpacity>
                 <Text style={{color: "white", fontSize: 20}}>New Task</Text>
             </View>
-            <View style={{ justifyContent: 'center' }}>
+            <View style={styles.form}>
                 <Text>Name of task</Text>
                 <TextInput
                     style={styles.input}
@@ -64,15 +73,12 @@ const TaskCard: FC<IProps> = ({task, modalIsVisible, setModalIsVisible}) : React
                     onDateChange={setNewDueDate}
                 />
                 <TouchableOpacity
-                    onPress={ () => "" }
-                >
-                    <Text>Add Task</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.button}
+                    
                     onPress={ () => setModalIsVisible(false) }
                 >
-                    <Text>Cancel</Text>
+                    <Text>
+                        <Icon name="check-circle" color="blue" size={55}/>
+                    </Text>
                 </TouchableOpacity>
             </View>
         </Modal>
@@ -92,6 +98,9 @@ const styles = StyleSheet.create({
         height: 50,
         width: "100%"
     },
+    form: {
+        marginTop: 65
+    },
     input: {
       height: 40,
       margin: 12,
@@ -99,10 +108,14 @@ const styles = StyleSheet.create({
       flexShrink: 0
     },
     button: {
-        height: 20,
-        width: 200,
-        borderRadius: 5,
-        backgroundColor: "white"
+        height: 80,
+        width: 80,
+        borderRadius: 200,
+        backgroundColor: "blue"
+    },
+    buttonText: {
+        color: "white",
+        marginTop: 15
     }
   });
 
