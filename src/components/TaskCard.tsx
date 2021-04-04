@@ -50,7 +50,7 @@ const TaskCard: FC<IProps> = ({task, modalIsVisible, setModalIsVisible}) : React
                         <Icon name="arrow-back" color="white" size={35}/>
                     </Text>
                 </TouchableOpacity>
-                <Text style={{color: "white", fontSize: 20}}>New Task</Text>
+                
             </View>
             <View style={styles.form}>
                 <Text>Name of task</Text>
@@ -77,7 +77,7 @@ const TaskCard: FC<IProps> = ({task, modalIsVisible, setModalIsVisible}) : React
                     onPress={ () => setModalIsVisible(false) }
                 >
                     <Text>
-                        <Icon name="check-circle" color="blue" size={55}/>
+                        <Icon name="add-task" color="blue" size={55}/>
                     </Text>
                 </TouchableOpacity>
             </View>
