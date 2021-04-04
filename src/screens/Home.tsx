@@ -1,9 +1,12 @@
 // React
 import React, { FC, ReactElement, useContext, useState } from 'react';
-import { StyleSheet, View, Button, Text, Alert } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 // Context
 import { ThemeContext } from '../App';
+
+// Third party
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // Custom components
 import TaskCard from '../components/TaskCard';
@@ -29,10 +32,14 @@ const Home: FC = () : ReactElement => {
     return (
         <View style={styles.home}>
             <TaskList list={todos}/>
-            <Button
-                title="Add Task"
-                onPress={ () => setModalIsVisible(true) }
-            />
+            <TouchableOpacity
+                    
+                    onPress={ () => setModalIsVisible(true) }
+                >
+                    <Text>
+                        <Icon name="add-circle" color="blue" size={55}/>
+                    </Text>
+            </TouchableOpacity>
             <TaskCard
                 task={{_id: 1, name: "hghg", note: "a note", dueDate: new Date()}}
                 modalIsVisible={modalIsVisible}
