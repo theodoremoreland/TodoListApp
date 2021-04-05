@@ -146,14 +146,14 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                                 <TouchableOpacity
                                         onPress={ () => submitRemoveTask({_id: _id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                                     >
-                                        <Text style={{marginLeft: 310}}>
-                                            <Icon name="delete" color="red" size={55}/>
+                                        <Text style={{marginLeft: 20}}>
+                                            <Icon name="delete" color="#d73a49" size={55}/>
                                         </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                         onPress={ () => submitUpdatedTask({_id: _id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                                     >
-                                        <Text style={{marginLeft: 310}}>
+                                        <Text style={{marginLeft: 310, marginTop: -55}}>
                                             <Icon name="update" color="#0366d6" size={55}/>
                                         </Text>
                                 </TouchableOpacity>
