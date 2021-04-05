@@ -124,6 +124,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                 />
                 <Text style={styles.label}>Due date</Text>
                 <DatePicker
+                    style={{alignSelf: "center"}}
                     date={newDueDate}
                     onDateChange={setNewDueDate}
                 />
@@ -134,7 +135,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                                 onPress={ () => submitNewTask({_id: generateTaskID(), name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                             >
                                 <Text style={{marginLeft: 310}}>
-                                    <Icon name="add-task" color="blue" size={55}/>
+                                    <Icon name="add-task" color="#0366d6" size={55}/>
                                 </Text>
                             </TouchableOpacity>
                         :   <>
@@ -149,7 +150,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                                         onPress={ () => submitUpdatedTask({_id: _id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                                     >
                                         <Text style={{marginLeft: 310}}>
-                                            <Icon name="update" color="blue" size={55}/>
+                                            <Icon name="update" color="#0366d6" size={55}/>
                                         </Text>
                                 </TouchableOpacity>
                             </>
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
         elevation: 1,
         position: "absolute",
         top: 0,
-        backgroundColor: "blue",
+        backgroundColor: "#0366d6",
         height: 50,
         width: "100%"
     },
@@ -176,7 +177,9 @@ const styles = StyleSheet.create({
         fontFamily: "Rubik-Medium",
         fontSize: 20,
         color: "white",
-        marginTop: 0
+        position: "absolute",
+        top: 13,
+        left: 45
     },
     form: {
         marginTop: 65,
