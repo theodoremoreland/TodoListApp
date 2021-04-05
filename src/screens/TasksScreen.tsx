@@ -11,7 +11,6 @@ import TaskList from '../components/TaskList';
 import TasksProvider from '../contexts/TasksContext';
 
 const TasksScreen: FC = () : ReactElement => {
-    const [tasks, setTasks] = useState<ITaskList | []>([]);
     const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
 
     return (
@@ -26,12 +25,11 @@ const TasksScreen: FC = () : ReactElement => {
             </TasksProvider>
 
             <TouchableOpacity
-                    
-                    onPress={ () => setModalIsVisible(true) }
-                >
-                    <Text>
-                        <Icon name="add-circle" color="blue" size={55}/>
-                    </Text>
+                onPress={ () => setModalIsVisible(true) }
+            >
+                <Text style={{marginLeft: 300}}>
+                    <Icon name="add-circle" color="rgba(0, 0, 95, 0.71)" size={65}/>
+                </Text>
             </TouchableOpacity>
         </View>
     );
