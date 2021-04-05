@@ -24,7 +24,7 @@ interface IProps {
 
 // TODO utilize useCallback hook
 const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible}) : ReactElement => {
-    const { tasks, addTask, updateTask } = useContext(TasksContext) as ITasksContext;
+    const { tasks, addTask, updateTask, removeTask } = useContext(TasksContext) as ITasksContext;
     const { _id, name, note, dueDate } = task;
     const [newTaskName, setNewTaskName] = useState<string>(name);
     const [newNote, setNewNote] = useState<string>(note);
@@ -36,7 +36,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
         };
         
         // assumes tasks are sorted by _ids from smallest to largest
-        const currentHighestID = tasks[tasks.length -1 ]._id;
+        const currentHighestID : number = tasks[tasks.length -1 ]._id;
         return currentHighestID + 1;
     };
 
@@ -48,8 +48,8 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
 
     const validateSubmission = () : boolean => {
         let alert : string = "";
-        const fieldIsFalsy = newTaskName == "";
-        const dateIsInPast = (newDueDate < new Date());
+        const fieldIsFalsy : boolean = newTaskName == "";
+        const dateIsInPast : boolean = (newDueDate < new Date());
         alert = fieldIsFalsy ? "Task must have a name." : alert;
         alert = dateIsInPast ? alert + "\nDue date must be in the future." : alert;
 
@@ -73,10 +73,15 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
     const submitUpdatedTask = (task : ITask) : void => {
         if (validateSubmission()) {
             updateTask(task);
-            clearForm();
             setModalIsVisible(false);
             Alert.alert("Task updated.");
         };
+    };
+
+    const submitRemoveTask = (task : ITask) : void => {
+            removeTask(task);
+            setModalIsVisible(false);
+            Alert.alert("Task deleted.");
     };
 
     return (
@@ -132,13 +137,22 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                                     <Icon name="add-task" color="blue" size={55}/>
                                 </Text>
                             </TouchableOpacity>
-                        :   <TouchableOpacity
-                                onPress={ () => submitUpdatedTask({_id: _id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
-                            >
-                                <Text style={{marginLeft: 310}}>
-                                    <Icon name="update" color="blue" size={55}/>
-                                </Text>
-                            </TouchableOpacity>
+                        :   <>
+                                <TouchableOpacity
+                                        onPress={ () => submitRemoveTask({_id: _id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
+                                    >
+                                        <Text style={{marginLeft: 310}}>
+                                            <Icon name="delete" color="red" size={55}/>
+                                        </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                        onPress={ () => submitUpdatedTask({_id: _id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
+                                    >
+                                        <Text style={{marginLeft: 310}}>
+                                            <Icon name="update" color="blue" size={55}/>
+                                        </Text>
+                                </TouchableOpacity>
+                            </>
                 }
             </View>
         </Modal>
