@@ -26,7 +26,7 @@ interface IProps {
     setModalIsVisible: (bool: boolean) => void,
 };
 
-// TODO utilize useCallback hook
+// TODO test performance
 const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible}) : ReactElement => {
     const { tasks, addTask, updateTask, removeTask } = useContext(TasksContext) as ITasksContext;
     const { _id, name, note, dueDate } = task;
@@ -118,6 +118,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                     onChangeText={setNewTaskName}
                     value={newTaskName}
                     placeholder="What should be done?"
+                    placeholderTextColor="grey"
                 />
                 <Text style={styles.label}>Note</Text>
                 <TextInput
@@ -125,6 +126,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                     onChangeText={setNewNote}
                     value={newNote}
                     placeholder="An important reminder about the task."
+                    placeholderTextColor="grey"
                 />
                 <Text style={styles.label}>Due date</Text>
                 <DatePicker
