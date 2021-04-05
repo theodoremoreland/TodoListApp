@@ -1,24 +1,19 @@
 // React
-import React, { FC, ReactElement, useState } from 'react';
+import React, { Dispatch, FC, ReactElement, SetStateAction, useContext, useState } from 'react';
 import { 
     View,
     StyleSheet,
     TouchableOpacity,
     Modal,
     Text,
-    TextInput
+    TextInput,
+    Alert
 } from "react-native";
 
 // Third Party
 import DatePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-interface ITask {
-    _id: number,
-    name: string,
-    note: string,
-    dueDate: Date
-};
+import { TasksContext } from '../contexts/TasksContext';
 
 interface IProps {
     task: ITask,
@@ -26,11 +21,42 @@ interface IProps {
     setModalIsVisible: (bool: boolean) => void,
 };
 
-const TaskCard: FC<IProps> = ({task, modalIsVisible, setModalIsVisible}) : ReactElement => {
+const TaskForm: FC<IProps> = ({ task, modalIsVisible, setModalIsVisible}) : ReactElement => {
+    const { tasks, addTask } = useContext(TasksContext) as ITasksContext;
     const { _id, name, note, dueDate } = task;
     const [newTaskName, setNewTaskName] = useState<string>(name);
     const [newNote, setNewNote] = useState<string>(note);
     const [newDueDate, setNewDueDate] = useState<Date>(dueDate);
+
+    const clearForm = () : void => {
+        setNewTaskName("");
+        setNewNote("");
+        setNewDueDate(new Date());
+    };
+
+    const validateSubmission = () : boolean => {
+        let alert : string = "";
+        const fieldIsFalsy = newTaskName == "";
+        const dateIsInPast = (newDueDate < new Date());
+        alert = fieldIsFalsy ? "Task must have a name." : alert;
+        alert = dateIsInPast ? alert + "\nDue date must be in the future." : alert;
+
+        if(fieldIsFalsy || dateIsInPast) {
+            Alert.alert(alert);
+            return false;
+        };
+
+        return true;
+    };
+
+    const submitForm = (task : ITask) : void => {
+        if (validateSubmission()) {
+            addTask(task);
+            clearForm();
+            setModalIsVisible(false);
+            Alert.alert("Task added.");
+        };
+    };
 
     return (
         <Modal
@@ -73,8 +99,7 @@ const TaskCard: FC<IProps> = ({task, modalIsVisible, setModalIsVisible}) : React
                     onDateChange={setNewDueDate}
                 />
                 <TouchableOpacity
-                    
-                    onPress={ () => setModalIsVisible(false) }
+                    onPress={ () => submitForm({_id: tasks[tasks.length - 1]._id + 1, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                 >
                     <Text>
                         <Icon name="add-task" color="blue" size={55}/>
@@ -119,4 +144,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default TaskCard;
+export default TaskForm;

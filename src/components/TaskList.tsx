@@ -1,25 +1,27 @@
 // React
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useContext } from 'react';
 import {
     FlatList,
     StyleSheet,
-    Text,
+    Text
 } from 'react-native';
+import { TasksContext } from '../contexts/TasksContext';
 
-interface ITask {
-    _id: number,
-    name: string,
-    dueDate: Date
+import TaskItem from './TaskItem';
+
+interface IProps {
+    tasks: ITaskList
 };
 
-const TaskList: FC<{list: Array<ITask>}> = ({list}) : ReactElement => {
+const TaskList: FC = () => {
+    const { tasks } = useContext(TasksContext) as ITasksContext;
 
     return (
         <FlatList
             style={styles.list}
-            data={list}
-            renderItem={({item}) => <Text>{item.name}</Text>}
-            keyExtractor={task => task.name}
+            data={tasks}
+            renderItem={({item}) => <TaskItem task={item}/>}
+            keyExtractor={task => `Task #${task._id} - ${task.name}`}
         /> 
     );
 };
