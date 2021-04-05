@@ -16,13 +16,15 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { TasksContext } from '../contexts/TasksContext';
 
 interface IProps {
+    title: string,
     task: ITask,
     modalIsVisible: boolean
     setModalIsVisible: (bool: boolean) => void,
 };
 
-const TaskForm: FC<IProps> = ({ task, modalIsVisible, setModalIsVisible}) : ReactElement => {
-    const { tasks, addTask } = useContext(TasksContext) as ITasksContext;
+// TODO utilize useCallback hook
+const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible}) : ReactElement => {
+    const { tasks, addTask, updateTask } = useContext(TasksContext) as ITasksContext;
     const { _id, name, note, dueDate } = task;
     const [newTaskName, setNewTaskName] = useState<string>(name);
     const [newNote, setNewNote] = useState<string>(note);
@@ -59,12 +61,21 @@ const TaskForm: FC<IProps> = ({ task, modalIsVisible, setModalIsVisible}) : Reac
         return true;
     };
 
-    const submitForm = (task : ITask) : void => {
+    const submitNewTask = (task : ITask) : void => {
         if (validateSubmission()) {
             addTask(task);
             clearForm();
             setModalIsVisible(false);
             Alert.alert("Task added.");
+        };
+    };
+
+    const submitUpdatedTask = (task : ITask) : void => {
+        if (validateSubmission()) {
+            updateTask(task);
+            clearForm();
+            setModalIsVisible(false);
+            Alert.alert("Task updated.");
         };
     };
 
@@ -85,7 +96,10 @@ const TaskForm: FC<IProps> = ({ task, modalIsVisible, setModalIsVisible}) : Reac
                     <Text style={{marginTop: 7}}>
                         <Icon name="arrow-back" color="white" size={35}/>
                     </Text>
-                </TouchableOpacity> 
+                </TouchableOpacity>
+                <Text style={{marginTop: 7}}>
+                        <Text>{title}</Text>
+                </Text>
             </View>
             <View style={styles.form}>
                 <Text style={styles.label}>Name of task</Text>
@@ -108,13 +122,24 @@ const TaskForm: FC<IProps> = ({ task, modalIsVisible, setModalIsVisible}) : Reac
                     date={newDueDate}
                     onDateChange={setNewDueDate}
                 />
-                <TouchableOpacity
-                    onPress={ () => submitForm({_id: generateTaskID(), name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
-                >
-                    <Text style={{marginLeft: 310}}>
-                        <Icon name="add-task" color="blue" size={55}/>
-                    </Text>
-                </TouchableOpacity>
+                {/* TODO "dry" the codeblock below */}
+                {
+                    title === "Add new task"
+                        ?   <TouchableOpacity
+                                onPress={ () => submitNewTask({_id: generateTaskID(), name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
+                            >
+                                <Text style={{marginLeft: 310}}>
+                                    <Icon name="add-task" color="blue" size={55}/>
+                                </Text>
+                            </TouchableOpacity>
+                        :   <TouchableOpacity
+                                onPress={ () => submitUpdatedTask({_id: _id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
+                            >
+                                <Text style={{marginLeft: 310}}>
+                                    <Icon name="update" color="blue" size={55}/>
+                                </Text>
+                            </TouchableOpacity>
+                }
             </View>
         </Modal>
     );

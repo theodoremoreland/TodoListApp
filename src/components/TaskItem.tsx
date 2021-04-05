@@ -30,7 +30,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
                 <Text>{dueDate.toLocaleDateString()}</Text>
             </View>
         </TouchableOpacity>
-        <TaskForm task={task} modalIsVisible={modalIsVisible} setModalIsVisible={setModalIsVisible} />
+        <TaskForm title={"Modify task"} task={task} modalIsVisible={modalIsVisible} setModalIsVisible={setModalIsVisible} />
         </>
     );
 };
@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
         height: 70,
         backgroundColor: 'rgba(0, 0, 95, 0.71)',
         marginBottom: 20,
-        shadowColor: "#000",
+        shadowColor: "black",
         shadowOffset: {
             width: 0,
-            height: 6,
+            height: 1,
         },
-        
-        shadowRadius: 8.30,
+        shadowOpacity: 5,
+        shadowRadius: 5,
         elevation: 13
     },
     itemFont: {
