@@ -1,5 +1,5 @@
 // React
-import React, { Dispatch, FC, ReactElement, SetStateAction, useContext, useState } from 'react';
+import React, { FC, ReactElement, useContext, useState } from 'react';
 import { 
     View,
     StyleSheet,
@@ -27,6 +27,16 @@ const TaskForm: FC<IProps> = ({ task, modalIsVisible, setModalIsVisible}) : Reac
     const [newTaskName, setNewTaskName] = useState<string>(name);
     const [newNote, setNewNote] = useState<string>(note);
     const [newDueDate, setNewDueDate] = useState<Date>(dueDate);
+
+    const generateTaskID = () : number => {
+        if (tasks.length === 0) {
+            return 1;
+        };
+        
+        // assumes tasks are sorted by _ids from smallest to largest
+        const currentHighestID = tasks[tasks.length -1 ]._id;
+        return currentHighestID + 1;
+    };
 
     const clearForm = () : void => {
         setNewTaskName("");
@@ -60,6 +70,7 @@ const TaskForm: FC<IProps> = ({ task, modalIsVisible, setModalIsVisible}) : Reac
 
     return (
         <Modal
+            style={styles.modal}
             animationType="slide"
             transparent={false}
             visible={modalIsVisible}
@@ -69,39 +80,38 @@ const TaskForm: FC<IProps> = ({ task, modalIsVisible, setModalIsVisible}) : Reac
         >   
             <View style={styles.modalHeader}>
                 <TouchableOpacity
-                    
                     onPress={ () => setModalIsVisible(false) }
                 >
-                    <Text>
+                    <Text style={{marginTop: 7}}>
                         <Icon name="arrow-back" color="white" size={35}/>
                     </Text>
-                </TouchableOpacity>
-                
+                </TouchableOpacity> 
             </View>
             <View style={styles.form}>
-                <Text>Name of task</Text>
+                <Text style={styles.label}>Name of task</Text>
                 <TextInput
+                    autoFocus
                     style={styles.input}
                     onChangeText={setNewTaskName}
                     value={newTaskName}
                     placeholder="What should be done?"
                 />
-                <Text>Note</Text>
+                <Text style={styles.label}>Note</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={setNewNote}
                     value={newNote}
                     placeholder="An important reminder about the task."
                 />
-                <Text>Due date</Text>
+                <Text style={styles.label}>Due date</Text>
                 <DatePicker
                     date={newDueDate}
                     onDateChange={setNewDueDate}
                 />
                 <TouchableOpacity
-                    onPress={ () => submitForm({_id: tasks[tasks.length - 1]._id + 1, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
+                    onPress={ () => submitForm({_id: generateTaskID(), name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                 >
-                    <Text>
+                    <Text style={{marginLeft: 310}}>
                         <Icon name="add-task" color="blue" size={55}/>
                     </Text>
                 </TouchableOpacity>
@@ -124,7 +134,12 @@ const styles = StyleSheet.create({
         width: "100%"
     },
     form: {
-        marginTop: 65
+        marginTop: 65,
+    },
+    label: {
+        fontSize: 20,
+        marginLeft: 13,
+        marginTop: 10
     },
     input: {
       height: 40,

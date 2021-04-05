@@ -1,6 +1,7 @@
 // React
 import React, { FC, ReactElement, useContext } from 'react';
 import {
+    Alert,
     FlatList,
     StyleSheet,
     Text
@@ -28,7 +29,7 @@ const TaskList: FC = () => {
 
 const styles = StyleSheet.create({
     list: {
-        marginTop: 32,
+        marginTop: 10,
         paddingHorizontal: 24
     }
 });
