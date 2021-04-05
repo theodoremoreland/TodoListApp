@@ -1,6 +1,6 @@
 // React
 import React, { FC, ReactElement, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 // Third party
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -9,6 +9,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import TaskForm from '../components/TaskForm';
 import TaskList from '../components/TaskList';
 import TasksProvider from '../contexts/TasksContext';
+
+// Styles
+import { styles } from '../styles/tasksScreen';
 
 const TasksScreen: FC = () : ReactElement => {
     const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -34,15 +37,5 @@ const TasksScreen: FC = () : ReactElement => {
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    home: { 
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f6f8fa',
-        fontFamily: 'Rubik-ExtraBold'
-    }
-});
 
 export default TasksScreen;
