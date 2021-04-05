@@ -1,5 +1,5 @@
 // React
-import React, { FC, ReactElement, useState } from 'react';
+import React, { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { 
     View,
     StyleSheet,
@@ -13,13 +13,25 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 // Custom components
 import TaskForm from './TaskForm';
 
+// Context
+import { TasksContext } from '../contexts/TasksContext';
+
 interface IProps {
-    task: ITask,
+    task: ITask
 };
 
 const TaskItem: FC<IProps> = ({task}) : ReactElement => {
+    const { updateTask } = useContext(TasksContext) as ITasksContext;
     const { _id, name, dueDate } = task;
     const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
+    const taskIsOverdue : boolean = new Date() > dueDate;
+    const statusColor : string = taskIsOverdue ? "red" : "green";
+    
+    useEffect(() => {
+        if (taskIsOverdue && task.status !== "overdue") {
+            updateTask({...task, status: "overdue"})
+        }
+    }, []);
 
     return (
         <>
@@ -27,7 +39,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
             <View style={styles.itemContainer}>
                 <Text>Task #{`${_id}`}</Text>
                 <Text style={styles.itemFont}>{name}</Text>
-                <Text>{dueDate.toLocaleDateString()}</Text>
+                <Text style={{color: statusColor}}>{dueDate.toLocaleDateString()}</Text>
             </View>
         </TouchableOpacity>
         <TaskForm title={"Modify task"} task={task} modalIsVisible={modalIsVisible} setModalIsVisible={setModalIsVisible} />
