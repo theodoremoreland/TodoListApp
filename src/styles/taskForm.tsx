@@ -28,14 +28,18 @@ export const styles = StyleSheet.create({
     label: {
         fontSize: 20,
         fontFamily: "Rubik-Light",
+        color: "#24292e",
         marginLeft: 13,
         marginTop: 10
     },
     input: {
-        height: 40,
+        height: 50,
         margin: 12,
-        borderWidth: 1,
-        flexShrink: 0
+        borderWidth: 0,
+        flexShrink: 0,
+        backgroundColor: "#24292e",
+        color: "#f6f8fa",
+        fontSize: 16
     },
     button: {
         height: 80,
