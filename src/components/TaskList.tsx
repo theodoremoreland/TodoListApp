@@ -1,20 +1,19 @@
 // React
 import React, { FC, ReactElement, useContext } from 'react';
 import {
-    Alert,
-    FlatList,
-    StyleSheet,
-    Text
+    FlatList
 } from 'react-native';
+
+// Context
 import { TasksContext } from '../contexts/TasksContext';
 
+// Custom components
 import TaskItem from './TaskItem';
 
-interface IProps {
-    tasks: ITaskList
-};
+// Styles
+import { styles } from '../styles/taskList';
 
-const TaskList: FC = () => {
+const TaskList: FC = () : ReactElement => {
     const { tasks } = useContext(TasksContext) as ITasksContext;
 
     return (
@@ -26,12 +25,5 @@ const TaskList: FC = () => {
         /> 
     );
 };
-
-const styles = StyleSheet.create({
-    list: {
-        marginTop: 10,
-        paddingHorizontal: 24
-    }
-});
 
 export default TaskList;
