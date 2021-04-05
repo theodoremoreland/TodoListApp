@@ -28,7 +28,7 @@ const TasksScreen: FC = () : ReactElement => {
                 onPress={ () => setModalIsVisible(true) }
             >
                 <Text style={{marginLeft: 300}}>
-                    <Icon name="add-circle" color="rgba(0, 0, 95, 0.71)" size={65}/>
+                    <Icon name="add-circle" color="#0366d6" size={65}/>
                 </Text>
             </TouchableOpacity>
         </View>
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(0, 112, 112, 0.8)',
+        backgroundColor: '#f6f8fa',
         fontFamily: 'Rubik-ExtraBold'
     }
 });

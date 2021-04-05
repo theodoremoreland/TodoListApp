@@ -3,7 +3,7 @@ import React, { FC, ReactElement, useContext, useEffect, useState } from 'react'
 import { 
     View,
     StyleSheet,
-    TouchableOpacity,
+    TouchableHighlight,
     Text
 } from "react-native";
 
@@ -25,7 +25,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
     const { _id, name, dueDate } = task;
     const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
     const taskIsOverdue : boolean = new Date() > dueDate;
-    const statusColor : string = taskIsOverdue ? "red" : "green";
+    const statusColor : string = taskIsOverdue ? "#d73a49" : "#1485FF";
     
     useEffect(() => {
         if (taskIsOverdue && task.status !== "overdue") {
@@ -35,13 +35,13 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
 
     return (
         <>
-        <TouchableOpacity onPress={() => setModalIsVisible(true)}>
-            <View style={styles.itemContainer}>
-                <Text>Task #{`${_id}`}</Text>
+        <TouchableHighlight style={styles.itemContainer} onPress={() => setModalIsVisible(true)}>
+            <View>
+                <Text style={{fontFamily: 'Rubik-Lightitalic', color: "white", fontSize: 12, marginLeft: 6, marginTop: 2}}>id #{`${_id}`}</Text>
                 <Text style={styles.itemFont}>{name}</Text>
-                <Text style={{color: statusColor}}>{dueDate.toLocaleDateString()}</Text>
+                <Text style={{color: statusColor, fontFamily: "Rubik-Light", fontSize: 15, marginLeft: 270}}>{dueDate.toLocaleDateString()}</Text>
             </View>
-        </TouchableOpacity>
+        </TouchableHighlight>
         <TaskForm title={"Modify task"} task={task} modalIsVisible={modalIsVisible} setModalIsVisible={setModalIsVisible} />
         </>
     );
@@ -49,24 +49,20 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
 
 const styles = StyleSheet.create({
     itemContainer: {
-        borderRadius: 3,
+        borderRadius: 6,
         width: 350,
         height: 70,
-        backgroundColor: 'rgba(0, 0, 95, 0.71)',
+        backgroundColor: '#2B3035',
         marginBottom: 20,
-        shadowColor: "black",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 5,
-        shadowRadius: 5,
-        elevation: 13
+        shadowColor: "#000",
+        elevation: 8,
     },
     itemFont: {
         color: 'white',
-        fontSize: 20,
-        
+        fontSize: 23,
+        fontFamily: "Rubik-Regular",
+        marginLeft: 6,
+        marginTop: 4
     }
 });
 
