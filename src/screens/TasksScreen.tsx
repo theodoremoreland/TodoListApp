@@ -36,7 +36,13 @@ const TasksScreen: FC = () : ReactElement => {
 };
 
 const styles = StyleSheet.create({
-    home: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 112, 112, 0.8)' }
+    home: { 
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0, 112, 112, 0.8)',
+        fontFamily: 'Rubik-ExtraBold'
+    }
 });
 
 export default TasksScreen;

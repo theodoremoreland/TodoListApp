@@ -102,7 +102,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                         <Icon name="arrow-back" color="white" size={35}/>
                     </Text>
                 </TouchableOpacity>
-                <Text style={{marginTop: 7}}>
+                <Text style={styles.title}>
                         <Text>{title}</Text>
                 </Text>
             </View>
@@ -172,11 +172,18 @@ const styles = StyleSheet.create({
         height: 50,
         width: "100%"
     },
+    title : {
+        fontFamily: "Rubik-Medium",
+        fontSize: 20,
+        color: "white",
+        marginTop: 0
+    },
     form: {
         marginTop: 65,
     },
     label: {
         fontSize: 20,
+        fontFamily: "Rubik-Light",
         marginLeft: 13,
         marginTop: 10
     },
