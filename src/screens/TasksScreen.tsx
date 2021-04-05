@@ -1,5 +1,5 @@
 // React
-import React, { FC, ReactElement, useContext, useState } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 // Third party
@@ -18,12 +18,12 @@ const TasksScreen: FC = () : ReactElement => {
             <TasksProvider>
                 <TaskList />
                 <TaskForm
+                    title={"Add new task"}
                     task={{_id: -1, name: "", note: "", dueDate: new Date(), status: ""}}
                     modalIsVisible={modalIsVisible}
                     setModalIsVisible={setModalIsVisible}
                 />
             </TasksProvider>
-
             <TouchableOpacity
                 onPress={ () => setModalIsVisible(true) }
             >
@@ -36,7 +36,7 @@ const TasksScreen: FC = () : ReactElement => {
 };
 
 const styles = StyleSheet.create({
-    home: { flex: 1, alignItems: 'center', justifyContent: 'center' }
+    home: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 112, 112, 0.8)' }
 });
 
 export default TasksScreen;
