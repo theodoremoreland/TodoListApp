@@ -30,6 +30,15 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
     const taskIsOverdue : boolean = new Date() > dueDate;
     const statusColor : string = taskIsOverdue ? "#d73a49" : "#1485FF";
     
+    const handleCheckboxChange = (isChecked: boolean) : void => {
+        if (isChecked) {
+            updateTask({...task, "status": "complete"});
+        }
+        else if (!isChecked && task.status === "complete"){
+            updateTask({...task, "status": "incomplete"});
+        };
+    };
+
     useEffect(() => {
         if (taskIsOverdue && task.status !== "overdue") {
             updateTask({...task, status: "overdue"})
@@ -39,7 +48,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
     return (
         <>
             <View style={styles.itemContainer}>
-                <View style={{ marginLeft: 10, marginTop: 20}}>
+                <View style={{ marginLeft: 10, marginTop: 19}}>
                     <BouncyCheckbox
                         size={30}
                         fillColor="#28a745"
@@ -47,7 +56,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
                         text={name}
                         textStyle={styles.itemFont}
                         iconStyle={{ borderColor: "#28a745" }}
-                        onPress={(isChecked: boolean) => {}} 
+                        onPress={(isChecked: boolean) => handleCheckboxChange(isChecked)} 
                     />
                 </View>
                 <TouchableOpacity style={{ alignSelf: "flex-end", marginRight: 10, marginTop: -40 }} onPress={() => setModalIsVisible(true)}>
