@@ -138,24 +138,27 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                 {
                     title === "Add new task"
                         ?   <TouchableOpacity
+                                style={{marginLeft: 310}}
                                 onPress={ () => submitNewTask({_id: generateTaskID(), name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                             >
-                                <Text style={{marginLeft: 310}}>
+                                <Text>
                                     <Icon name="add-task" color="#0366d6" size={55}/>
                                 </Text>
                             </TouchableOpacity>
                         :   <>
                                 <TouchableOpacity
+                                        style={{marginLeft: 20}}
                                         onPress={ () => submitRemoveTask({_id: _id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                                     >
-                                        <Text style={{marginLeft: 20}}>
+                                        <Text>
                                             <Icon name="delete" color="#d73a49" size={55}/>
                                         </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
+                                        style={{marginLeft: 310, marginTop: -55}}
                                         onPress={ () => submitUpdatedTask({_id: _id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                                     >
-                                        <Text style={{marginLeft: 310, marginTop: -55}}>
+                                        <Text>
                                             <Icon name="update" color="#0366d6" size={55}/>
                                         </Text>
                                 </TouchableOpacity>
