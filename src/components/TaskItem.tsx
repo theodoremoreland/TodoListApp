@@ -7,6 +7,7 @@ import {
 } from "react-native";
 
 // Third Party
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // Custom components
@@ -37,14 +38,26 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
 
     return (
         <>
-        <TouchableOpacity style={styles.itemContainer} onPress={() => setModalIsVisible(true)}>
-            <View>
-                <Text style={{fontFamily: 'Rubik-Lightitalic', color: "white", fontSize: 12, marginLeft: 6, marginTop: 2}}>id #{`${_id}`}</Text>
-                <Text style={styles.itemFont}>{name}</Text>
-                <Text style={{color: statusColor, fontFamily: "Rubik-Light", fontSize: 15, marginLeft: 270}}>{dueDate.toLocaleDateString()}</Text>
+            <View style={styles.itemContainer}>
+                <View style={{ marginLeft: 10, marginTop: 20}}>
+                    <BouncyCheckbox
+                        size={30}
+                        fillColor="#28a745"
+                        unfillColor="#FFFFFF"
+                        text={name}
+                        textStyle={styles.itemFont}
+                        iconStyle={{ borderColor: "#28a745" }}
+                        onPress={(isChecked: boolean) => {}} 
+                    />
+                </View>
+                <TouchableOpacity style={{ alignSelf: "flex-end", marginRight: 10, marginTop: -40 }} onPress={() => setModalIsVisible(true)}>
+                    <Icon name="notes" color="white" size={55}/>
+                </TouchableOpacity>
             </View>
-        </TouchableOpacity>
-        <TaskForm title={"Modify task"} task={task} modalIsVisible={modalIsVisible} setModalIsVisible={setModalIsVisible} />
+            <Text style={{color: statusColor, elevation: 12, fontFamily: "Rubik-Light", fontSize: 15, position: "absolute", top: 55, left: 10}}>
+                    {dueDate.toLocaleString()}
+            </Text>
+            <TaskForm title={"Modify task"} task={task} modalIsVisible={modalIsVisible} setModalIsVisible={setModalIsVisible} />
         </>
     );
 };
