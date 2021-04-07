@@ -3,9 +3,7 @@ import React, { FC, ReactElement, useContext, useEffect, useState } from 'react'
 import { 
     View,
     TouchableOpacity,
-    Text,
-    Alert,
-    Pressable
+    Text
 } from "react-native";
 
 // Third Party
@@ -34,17 +32,18 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
     const [markAsCompletedCountdown, setMarkAsCompletedCountdown] = useState<ReturnType<typeof setTimeout>>(setTimeout(() => undefined));
 
     const handleCheckboxChange = (isChecked: boolean) : void => {
+        clearTimeout(markAsCompletedCountdown);
+
         if (isChecked) {
-            setMarkAsCompletedCountdown(setTimeout(() => updateTask({...task, "status": "complete"}), 1000));
-            clearTimeout(markAsCompletedCountdown);
+            // ! Set timeout is used to delay the updating of the task as to allow the checkbox + strikethrough animation to complete
+            // ! If a user checks multiple tasks in succession too quickly, the tasks checked first do not update properly
+            // ! Because of this, the timeout is set to 500ms to ensure the updates occur quickly enough that the user can't check another task.
+            // TODO ^^^ This is not ideal. investigate a better UX solution.
+            setMarkAsCompletedCountdown(setTimeout(() => updateTask({...task, "status": "complete"}), 500));
         }
         else if (!isChecked && task.status === "complete"){
-            clearTimeout(markAsCompletedCountdown);
             updateTask({...task, "status": "incomplete"});
         }
-        else {
-            clearTimeout(markAsCompletedCountdown);
-        };
     };
 
     useEffect(() => {
