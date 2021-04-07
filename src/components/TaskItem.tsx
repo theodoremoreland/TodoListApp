@@ -3,18 +3,20 @@ import React, { FC, ReactElement, useContext, useEffect, useState } from 'react'
 import { 
     View,
     TouchableOpacity,
-    Text
+    Text,
+    Alert,
+    Pressable
 } from "react-native";
 
 // Third Party
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// Custom components
-import TaskForm from './TaskForm';
-
 // Context
 import { TasksContext } from '../contexts/TasksContext';
+
+// Custom components
+import TaskForm from './TaskForm';
 
 // Styles
 import { styles } from '../styles/taskItem';
@@ -25,17 +27,23 @@ interface IProps {
 
 const TaskItem: FC<IProps> = ({task}) : ReactElement => {
     const { updateTask } = useContext(TasksContext) as ITasksContext;
-    const { _id, name, dueDate } = task;
+    const { name, dueDate } = task;
     const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
     const taskIsOverdue : boolean = new Date() > dueDate;
     const statusColor : string = taskIsOverdue ? "#d73a49" : "#1485FF";
-    
+    const [markAsCompletedCountdown, setMarkAsCompletedCountdown] = useState<ReturnType<typeof setTimeout>>(setTimeout(() => undefined));
+
     const handleCheckboxChange = (isChecked: boolean) : void => {
         if (isChecked) {
-            updateTask({...task, "status": "complete"});
+            setMarkAsCompletedCountdown(setTimeout(() => updateTask({...task, "status": "complete"}), 1000));
+            clearTimeout(markAsCompletedCountdown);
         }
         else if (!isChecked && task.status === "complete"){
+            clearTimeout(markAsCompletedCountdown);
             updateTask({...task, "status": "incomplete"});
+        }
+        else {
+            clearTimeout(markAsCompletedCountdown);
         };
     };
 
