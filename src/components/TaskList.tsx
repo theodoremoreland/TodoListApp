@@ -15,7 +15,7 @@ import { styles } from '../styles/taskList';
 
 const TaskList: FC = () : ReactElement => {
     const { tasks } = useContext(TasksContext) as ITasksContext;
-    const filteredTasks : ITaskList = tasks.filter((task) => task.status !== "complete");
+    const filteredTasks = tasks.filter((task) => task.status !== "complete");
 
     return (
         <FlatList

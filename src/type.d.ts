@@ -1,7 +1,7 @@
 interface ITask {
     _id: number,
     name: string,
-    note: string,
+    note?: string,
     dueDate: Date,
     status: string
 }
