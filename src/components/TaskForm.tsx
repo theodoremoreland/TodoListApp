@@ -65,7 +65,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
         return true;
     };
 
-    const submitNewTask = (task : ITask) : void => {
+    const submitNewTask = (task) : void => {
         if (validateSubmission()) {
             addTask(task);
             clearForm();
@@ -74,7 +74,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
         };
     };
 
-    const submitUpdatedTask = (task : ITask) : void => {
+    const submitUpdatedTask = (task) : void => {
         if (validateSubmission()) {
             updateTask(task);
             setModalIsVisible(false);
@@ -82,7 +82,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
         };
     };
 
-    const submitRemoveTask = (task : ITask) : void => {
+    const submitRemoveTask = (task) : void => {
             removeTask(task);
             setModalIsVisible(false);
             Alert.alert("Task deleted.");
@@ -139,7 +139,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                     title === "Add new task"
                         ?   <TouchableOpacity
                                 style={{marginLeft: 310}}
-                                onPress={ () => submitNewTask({_id: generateTaskID(), name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
+                                onPress={ () => submitNewTask({_id: Math.floor(Math.random() * 1000), name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                             >
                                 <Text>
                                     <Icon name="add-task" color="#0366d6" size={55}/>
