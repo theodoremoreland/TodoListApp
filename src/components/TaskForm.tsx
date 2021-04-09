@@ -28,21 +28,11 @@ interface IProps {
 
 // TODO test performance
 const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible}) : ReactElement => {
-    const { tasks, addTask, updateTask, removeTask } = useContext(TasksContext) as ITasksContext;
+    const { addTask, updateTask, removeTask } = useContext(TasksContext) as ITasksContext;
     const { _id, name, note, dueDate } = task;
     const [newTaskName, setNewTaskName] = useState<string>(name);
     const [newNote, setNewNote] = useState<string>(note);
     const [newDueDate, setNewDueDate] = useState<Date>(dueDate);
-
-    const generateTaskID = () : number => {
-        if (tasks.length === 0) {
-            return 1;
-        };
-        
-        // assumes tasks are sorted by _ids from smallest to largest
-        const currentHighestID : number = tasks[tasks.length -1 ]._id;
-        return currentHighestID + 1;
-    };
 
     const clearForm = () : void => {
         setNewTaskName("");
@@ -65,7 +55,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
         return true;
     };
 
-    const submitNewTask = (task) : void => {
+    const submitNewTask = (task : ITask) : void => {
         if (validateSubmission()) {
             addTask(task);
             clearForm();
@@ -74,7 +64,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
         };
     };
 
-    const submitUpdatedTask = (task) : void => {
+    const submitUpdatedTask = (task : ITask) : void => {
         if (validateSubmission()) {
             updateTask(task);
             setModalIsVisible(false);
@@ -82,7 +72,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
         };
     };
 
-    const submitRemoveTask = (task) : void => {
+    const submitRemoveTask = (task : ITask) : void => {
             removeTask(task);
             setModalIsVisible(false);
             Alert.alert("Task deleted.");
@@ -139,7 +129,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                     title === "Add new task"
                         ?   <TouchableOpacity
                                 style={{marginLeft: 310}}
-                                onPress={ () => submitNewTask({_id: Math.floor(Math.random() * 1000), name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
+                                onPress={ () => submitNewTask({name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                             >
                                 <Text>
                                     <Icon name="add-task" color="#0366d6" size={55}/>
@@ -148,7 +138,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                         :   <>
                                 <TouchableOpacity
                                         style={{marginLeft: 20}}
-                                        onPress={ () => submitRemoveTask({_id: _id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
+                                        onPress={ () => submitRemoveTask(task) }
                                     >
                                         <Text>
                                             <Icon name="delete" color="#d73a49" size={55}/>
@@ -156,7 +146,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                         style={{marginLeft: 310, marginTop: -55}}
-                                        onPress={ () => submitUpdatedTask({_id: _id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
+                                        onPress={ () => submitUpdatedTask({...task, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
                                     >
                                         <Text>
                                             <Icon name="update" color="#0366d6" size={55}/>

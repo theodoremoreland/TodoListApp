@@ -1,12 +1,12 @@
 interface ITask {
-    _id: number,
+    _id?: any,
     name: string,
-    note?: string,
+    note: string,
     dueDate: Date,
     status: string
 }
 
-type ITaskList = Array<ITask> | [];
+type ITaskList = Object[];
 
 interface ITasksContext {
     tasks: ITaskList,
