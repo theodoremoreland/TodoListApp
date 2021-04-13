@@ -31,8 +31,6 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
     const statusColor : string = taskIsOverdue ? "#d73a49" : "#1485FF";
     const [markAsCompletedCountdown, setMarkAsCompletedCountdown] = useState<ReturnType<typeof setTimeout>>(setTimeout(() => undefined));
 
-    // TODO this works, but the timeout's timing is off. Debugger claims remote debugger is slowing things down.
-    // ...it suggest moving it to new window. Timeout works but it takes about 1 minute instead of 500ms
     const handleCheckboxChange = (isChecked: boolean) : void => {
         clearTimeout(markAsCompletedCountdown);
         
@@ -44,7 +42,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
             setMarkAsCompletedCountdown(setTimeout(() => updateTask({...task, "status": "complete"}), 500));
         }
         else if (!isChecked && task.status === "complete"){
-            updateTask({...task, "status": "incomplete"});
+            updateTask({...task, "status": "open"});
         }
     };
 

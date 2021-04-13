@@ -1,33 +1,29 @@
-import { ObjectId } from "bson";
-
 export class Task implements ITask {
-  _id: ObjectId;
+  id: number;
   name: string;
   note: string;
   dueDate: Date;
-  status: string;
+  status: 'open' | 'overdue' | 'complete';
 
-  constructor(name : string, note : string, dueDate : Date, status : string) {
+  constructor(id: number, name : string, note : string, dueDate : Date, status : string) {
     this.name = name;
     this.note = note;
     this.dueDate = dueDate;
-    this.status = status;
-    this._id = new ObjectId();
+    this.status = status === 'overdue' ? status
+      : status === 'complete' ? status
+      : 'open';
+    this.id = id;
   };
-
-  static STATUS_OVERDUE = "overdue";
-  static STATUS_INCOMPLETE = "incomplete";
-  static STATUS_COMPLETE = "complete";
 
   static schema = {
       name: "Task",
       properties: {
-        _id: "objectId",
+        id: "int",
         name: "string",
         note: "string",
         dueDate: "date",
         status: "string"
       },
-      primaryKey: '_id',
+      primaryKey: 'id',
   };
 };

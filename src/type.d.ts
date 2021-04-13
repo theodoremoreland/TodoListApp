@@ -1,12 +1,13 @@
 interface ITask {
-    _id?: any,
+    id: number,
     name: string,
     note: string,
     dueDate: Date,
-    status: string
+    status: 'complete' | 'open' | 'overdue'
 }
 
-type ITaskList = Object[];
+// TODO change this, maybe?
+type ITaskList = any;
 
 interface ITasksContext {
     tasks: ITaskList,
