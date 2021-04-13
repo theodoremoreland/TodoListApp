@@ -29,7 +29,7 @@ interface IProps {
 // TODO test performance
 const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible}) : ReactElement => {
     const { addTask, updateTask, removeTask } = useContext(TasksContext) as ITasksContext;
-    const { _id, name, note, dueDate } = task;
+    const { id, name, note, dueDate } = task;
     const [newTaskName, setNewTaskName] = useState<string>(name);
     const [newNote, setNewNote] = useState<string>(note);
     const [newDueDate, setNewDueDate] = useState<Date>(dueDate);
@@ -129,7 +129,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                     title === "Add new task"
                         ?   <TouchableOpacity
                                 style={{marginLeft: 310}}
-                                onPress={ () => submitNewTask({name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
+                                onPress={ () => submitNewTask({id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "open"}) }
                             >
                                 <Text>
                                     <Icon name="add-task" color="#0366d6" size={55}/>
@@ -146,7 +146,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                         style={{marginLeft: 310, marginTop: -55}}
-                                        onPress={ () => submitUpdatedTask({...task, name: newTaskName, note: newNote, dueDate: newDueDate, status: "incomplete"}) }
+                                        onPress={ () => submitUpdatedTask({...task, name: newTaskName, note: newNote, dueDate: newDueDate, status: "open"}) }
                                     >
                                         <Text>
                                             <Icon name="update" color="#0366d6" size={55}/>

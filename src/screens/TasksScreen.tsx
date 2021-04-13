@@ -22,7 +22,7 @@ const TasksScreen: FC = () : ReactElement => {
                 <TaskList />
                 <TaskForm
                     title="Add new task"
-                    task={{_id: -1, name: "", note: "", dueDate: new Date(), status: ""}}
+                    task={{id: -1, name: "", note: "", dueDate: new Date(), status: "open"}}
                     modalIsVisible={modalIsVisible}
                     setModalIsVisible={setModalIsVisible}
                 />
