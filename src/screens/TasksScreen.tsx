@@ -21,8 +21,8 @@ const TasksScreen: FC = () : ReactElement => {
             <TasksProvider>
                 <TaskList />
                 <TaskForm
-                    title={"Add new task"}
-                    task={{_id: -1, name: "", note: "", dueDate: new Date(), status: ""}}
+                    title="Add new task"
+                    task={{id: -1, name: "", note: "", dueDate: new Date(), status: "open"}}
                     modalIsVisible={modalIsVisible}
                     setModalIsVisible={setModalIsVisible}
                 />

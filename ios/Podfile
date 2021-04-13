@@ -1,5 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+source 'https://github.com/CocoaPods/Specs.git'
+# source 'https://cdn.cocoapods.org/'
 
 platform :ios, '10.0'
 
@@ -11,6 +13,8 @@ target 'TodoListApp' do
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => false
   )
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
   target 'TodoListAppTests' do
     inherit! :complete

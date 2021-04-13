@@ -33,7 +33,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
 
     const handleCheckboxChange = (isChecked: boolean) : void => {
         clearTimeout(markAsCompletedCountdown);
-
+        
         if (isChecked) {
             // ! Set timeout is used to delay the updating of the task as to allow the checkbox + strikethrough animation to complete
             // ! If a user checks multiple tasks in succession too quickly, the tasks checked first do not update properly
@@ -42,7 +42,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
             setMarkAsCompletedCountdown(setTimeout(() => updateTask({...task, "status": "complete"}), 500));
         }
         else if (!isChecked && task.status === "complete"){
-            updateTask({...task, "status": "incomplete"});
+            updateTask({...task, "status": "open"});
         }
     };
 
