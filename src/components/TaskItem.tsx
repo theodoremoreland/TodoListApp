@@ -63,6 +63,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
                         text={name}
                         textStyle={styles.itemFont}
                         iconStyle={{ borderColor: "#28a745" }}
+                        isChecked={task.status === "complete"}
                         onPress={(isChecked: boolean) => handleCheckboxChange(isChecked)} 
                     />
                 </View>
