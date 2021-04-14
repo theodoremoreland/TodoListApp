@@ -26,7 +26,6 @@ const TaskList: FC<IProps> = ({listType}) : ReactElement => {
         // (i.e. doing so in declaration leads to empty lists in some cases)
         const filteredTasks = tasks.filter((task : ITask) => task.status === listType);
         setFilteredTask(filteredTasks);
-
     }, [tasks, listType]);
 
     return (

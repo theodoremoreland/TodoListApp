@@ -25,7 +25,7 @@ interface IProps {
 
 const TaskItem: FC<IProps> = ({task}) : ReactElement => {
     const { updateTask } = useContext(TasksContext) as ITasksContext;
-    const { name, dueDate } = task;
+    const { id, name, note, dueDate } = task;
     const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
     const taskIsOverdue : boolean = new Date() > dueDate;
     const statusColor : string = taskIsOverdue ? "#d73a49" : "#1485FF";
@@ -39,16 +39,16 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
             // ! If a user checks multiple tasks in succession too quickly, the tasks checked first do not update properly
             // ! Because of this, the timeout is set to 500ms to ensure the updates occur quickly enough that the user can't check another task.
             // TODO ^^^ This is not ideal. investigate a better UX solution.
-            setMarkAsCompletedCountdown(setTimeout(() => updateTask({...task, "status": "complete"}), 500));
+            setMarkAsCompletedCountdown(setTimeout(() => updateTask({id, name, note, dueDate, "status": "complete"}), 500));
         }
         else if (!isChecked && task.status === "complete"){
-            updateTask({...task, "status": "open"});
+            updateTask({id, name, note, dueDate,  "status": "open"});
         }
     };
 
     useEffect(() => {
         if (taskIsOverdue && task.status !== "overdue") {
-            updateTask({...task, status: "overdue"})
+            updateTask({id, name, note, dueDate,  status: "overdue"})
         }
     }, []);
 

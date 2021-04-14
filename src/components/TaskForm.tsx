@@ -29,7 +29,7 @@ interface IProps {
 // TODO test performance
 const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible}) : ReactElement => {
     const { addTask, updateTask, removeTask } = useContext(TasksContext) as ITasksContext;
-    const { id, name, note, dueDate } = task;
+    const { id, name, note, dueDate, status } = task;
     const [newTaskName, setNewTaskName] = useState<string>(name);
     const [newNote, setNewNote] = useState<string>(note);
     const [newDueDate, setNewDueDate] = useState<Date>(dueDate);
@@ -146,7 +146,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                         style={{marginLeft: 310, marginTop: -55}}
-                                        onPress={ () => submitUpdatedTask({...task, name: newTaskName, note: newNote, dueDate: newDueDate, status: "open"}) }
+                                        onPress={ () => submitUpdatedTask({id, name: newTaskName, note: newNote, dueDate: newDueDate, status}) }
                                     >
                                         <Text>
                                             <Icon name="update" color="#0366d6" size={55}/>
