@@ -25,7 +25,6 @@ const TaskList: FC<IProps> = ({listType}) : ReactElement => {
         // Setting filteredTasks here to ensure filtering on all tasks
         // (i.e. doing so in declaration leads to empty lists in some cases)
         const filteredTasks = tasks.filter((task : ITask) => task.status === listType);
-        console.log(filteredTasks);
         setFilteredTask(filteredTasks);
 
     }, [tasks, listType]);
