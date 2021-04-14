@@ -13,7 +13,20 @@ export default function App() {
   return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Todo List" component={TasksScreen} />
+          <Stack.Screen
+            name="Todo List"
+            component={TasksScreen} 
+            options={{
+              headerStyle: {
+                backgroundColor: '#24292e',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+                fontFamily: "Rubik-Regular"
+              },
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
   );
