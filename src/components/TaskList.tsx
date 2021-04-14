@@ -13,15 +13,22 @@ import TaskItem from './TaskItem';
 // Styles
 import { styles } from '../styles/taskList';
 
-const TaskList: FC = () : ReactElement => {
+interface IProps {
+    listType: "open" | "complete" | "overdue"
+};
+
+const TaskList: FC<IProps> = ({listType}) : ReactElement => {
     const { tasks } = useContext(TasksContext) as ITasksContext;
     const [filteredTasks, setFilteredTask] = useState<Array<ITask>>([]);
 
     useEffect(() => {
         // Setting filteredTasks here to ensure filtering on all tasks
         // (i.e. doing so in declaration leads to empty lists in some cases)
-        setFilteredTask(tasks.filter((task : ITask) => task.status !== "complete"));
-    }, [tasks]);
+        const filteredTasks = tasks.filter((task : ITask) => task.status === listType);
+        console.log(filteredTasks);
+        setFilteredTask(filteredTasks);
+
+    }, [tasks, listType]);
 
     return (
         <FlatList
