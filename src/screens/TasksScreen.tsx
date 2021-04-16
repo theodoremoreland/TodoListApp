@@ -16,7 +16,7 @@ import { styles } from '../styles/tasksScreen';
 
 const TasksScreen: FC<any> = ({ navigation }) : ReactElement => {
     const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
-    const [listType, setListType] = useState<"open" | "complete" | "overdue">("open");
+    const [listType, setListType] = useState<"all" | "open" | "complete" | "overdue">("all");
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -27,10 +27,12 @@ const TasksScreen: FC<any> = ({ navigation }) : ReactElement => {
                     dropdownIconColor="#fff"
                     mode="dropdown"
                     selectedValue={listType}
-                    onValueChange={(itemValue, itemIndex) => setListType(itemValue)}
+                    onValueChange={(itemValue) => setListType(itemValue)}
                 >
+                    <Picker.Item label="All tasks" value="all" />
                     <Picker.Item label="Open tasks" value="open" />
                     <Picker.Item label="Completed tasks" value="complete" />
+                    <Picker.Item label="Overdue tasks" value="overdue" />
                 </Picker>
             </View>
           ),

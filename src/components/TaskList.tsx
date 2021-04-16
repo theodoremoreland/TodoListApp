@@ -14,7 +14,7 @@ import TaskItem from './TaskItem';
 import { styles } from '../styles/taskList';
 
 interface IProps {
-    listType: "open" | "complete" | "overdue"
+    listType: "all" | "open" | "complete" | "overdue"
 };
 
 const TaskList: FC<IProps> = ({listType}) : ReactElement => {
@@ -24,7 +24,13 @@ const TaskList: FC<IProps> = ({listType}) : ReactElement => {
     useEffect(() => {
         // Setting filteredTasks here to ensure filtering on all tasks
         // (i.e. doing so in declaration leads to empty lists in some cases)
-        const filteredTasks = tasks.filter((task : ITask) => task.status === listType);
+        const filteredTasks = tasks.filter((task : ITask) => {
+            if (listType === "all") {
+                return true;
+            } else {
+                return task.status === listType;
+            };
+        });
         setFilteredTask(filteredTasks);
     }, [tasks, listType]);
 
