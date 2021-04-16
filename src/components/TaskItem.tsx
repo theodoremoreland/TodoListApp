@@ -25,9 +25,9 @@ interface IProps {
 
 const TaskItem: FC<IProps> = ({task}) : ReactElement => {
     const { updateTask } = useContext(TasksContext) as ITasksContext;
-    const { id, name, note, dueDate } = task;
+    const { id, name, note, dueDate, status } = task;
     const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
-    const taskIsOverdue : boolean = new Date() > dueDate;
+    const taskIsOverdue : boolean = (new Date() > dueDate) && (status === "open") || status === "overdue";
     const statusColor : string = taskIsOverdue ? "#d73a49" : "#1485FF";
     const [markAsCompletedCountdown, setMarkAsCompletedCountdown] = useState<ReturnType<typeof setTimeout>>(setTimeout(() => undefined));
 
@@ -41,13 +41,13 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
             // TODO ^^^ This is not ideal. investigate a better UX solution.
             setMarkAsCompletedCountdown(setTimeout(() => updateTask({id, name, note, dueDate, "status": "complete"}), 500));
         }
-        else if (!isChecked && task.status === "complete"){
+        else if (!isChecked && status === "complete"){
             updateTask({id, name, note, dueDate,  "status": "open"});
         }
     };
 
     useEffect(() => {
-        if (taskIsOverdue && task.status !== "overdue") {
+        if (taskIsOverdue) {
             updateTask({id, name, note, dueDate,  status: "overdue"})
         }
     }, []);
