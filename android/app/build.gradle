@@ -185,6 +185,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-push-notification')
+    compile ('com.google.android.gms:play-services-gcm:17.0.0') {
+        force = true;
+    }
+    
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
