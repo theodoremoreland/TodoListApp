@@ -6,6 +6,9 @@ import React, { FC, ReactElement, ReactNode, useState, useRef, useEffect } from 
 import Realm, { Results } from "realm";
 import { Task } from '../realm/models/Tasks';
 
+// Push notifications
+import { scheduleNotification, cancelNotification } from '../Notifications';
+
 export const TasksContext = React.createContext<ITasksContext | null>(null);
 
 const TasksProvider: FC<ReactNode> = ({children}) : ReactElement => {
@@ -30,6 +33,9 @@ const TasksProvider: FC<ReactNode> = ({children}) : ReactElement => {
             const q : Results<Object> = realm.objects("Task").sorted("dueDate");
             setTasks([...q]);
         });
+
+        // TODO make this async
+        scheduleNotification(task.dueDate, task.id, task.name);
     };
 
     const removeTask = (task : ITask) : void => {
@@ -42,6 +48,9 @@ const TasksProvider: FC<ReactNode> = ({children}) : ReactElement => {
             const q : Results<Object> = realm.objects("Task").sorted("dueDate");
             setTasks([...q]);
         });
+
+        // TODO make this async
+        cancelNotification(task.id);
     };
 
     const updateTask = (task : ITask) : void => {
@@ -55,6 +64,11 @@ const TasksProvider: FC<ReactNode> = ({children}) : ReactElement => {
             const q : Results<Object> = realm.objects("Task").sorted("dueDate");
             setTasks([...q]);
         });
+
+        // TODO make this async
+        if (task.status === "complete") {
+            cancelNotification(task.id);
+        };
     };
 
     useEffect(() => {
