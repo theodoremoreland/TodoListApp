@@ -47,7 +47,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
     };
 
     useEffect(() => {
-        if (taskIsOverdue) {
+        if (taskIsOverdue && task.status !== "overdue") {
             updateTask({id, name, note, dueDate,  status: "overdue"})
         }
     }, []);
@@ -60,7 +60,11 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
                         size={30}
                         fillColor="#28a745"
                         unfillColor="#FFFFFF"
-                        text={name}
+                        text={
+                            name.length >= 15
+                                ? name.substring(0, 14) + "..."
+                                : name
+                        }
                         textStyle={styles.itemFont}
                         iconStyle={{ borderColor: "#28a745" }}
                         isChecked={task.status === "complete"}
