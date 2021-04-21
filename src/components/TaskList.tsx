@@ -27,7 +27,11 @@ const TaskList: FC<IProps> = ({listType}) : ReactElement => {
         const filteredTasks = tasks.filter((task : ITask) => {
             if (listType === "all") {
                 return true;
-            } else {
+            }
+            else if (listType === "open") {
+                return task.status === "open" || task.status === "overdue";
+            }
+            else {
                 return task.status === listType;
             };
         });
