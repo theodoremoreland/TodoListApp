@@ -5,7 +5,8 @@ export const styles = StyleSheet.create({
     itemContainer: {
         position: "relative",
         borderRadius: 6,
-        width: 350,
+        
+        width: 300,
         height: 80,
         backgroundColor: '#24292e',
         marginBottom: 10,
@@ -14,7 +15,7 @@ export const styles = StyleSheet.create({
     },
     itemFont: {
         color: 'white',
-        fontSize: 23,
-        fontFamily: "Rubik-Regular"
+        fontSize: 20,
+        fontFamily: "Rubik-Regular",
     }
 });
