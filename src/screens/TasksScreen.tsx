@@ -29,10 +29,10 @@ const TasksScreen: FC<any> = ({ navigation }) : ReactElement => {
                     selectedValue={listType}
                     onValueChange={(itemValue) => setListType(itemValue)}
                 >
-                    <Picker.Item label="All tasks" value="all" />
-                    <Picker.Item label="Open tasks" value="open" />
-                    <Picker.Item label="Completed tasks" value="complete" />
-                    <Picker.Item label="Overdue tasks" value="overdue" />
+                    <Picker.Item label="All tasks" value="all" style={{color: "white"}}/>
+                    <Picker.Item label="Open tasks" value="open" style={{color: "white"}}/>
+                    <Picker.Item label="Completed tasks" value="complete" style={{color: "white"}}/>
+                    <Picker.Item label="Overdue tasks" value="overdue" style={{color: "white"}}/>
                 </Picker>
             </View>
           ),
@@ -52,9 +52,10 @@ const TasksScreen: FC<any> = ({ navigation }) : ReactElement => {
             </TasksProvider>
             <TouchableOpacity
                 onPress={ () => setModalIsVisible(true) }
+                style={{alignSelf: "flex-end"}}
             >
-                <Text style={{marginLeft: 300}}>
-                    <Icon name="add-circle" color="#0366d6" size={65}/>
+                <Text>
+                    <Icon name="add-circle" color="#0366d6" size={65} />
                 </Text>
             </TouchableOpacity>
         </View>
