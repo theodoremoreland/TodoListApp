@@ -128,7 +128,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                 {
                     title === "Add new task"
                         ?   <TouchableOpacity
-                                style={{marginLeft: 310}}
+                                style={{ alignSelf: "flex-end", marginRight: 5 }}
                                 onPress={ () => submitNewTask({id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "open"}) }
                             >
                                 <Text>
@@ -137,7 +137,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                             </TouchableOpacity>
                         :   <>
                                 <TouchableOpacity
-                                        style={{marginLeft: 20}}
+                                        style={{ alignSelf: "flex-start" }}
                                         onPress={ () => submitRemoveTask(task) }
                                     >
                                         <Text>
@@ -145,7 +145,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                                         </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                        style={{marginLeft: 310, marginTop: -55}}
+                                        style={{ alignSelf: "flex-end", marginTop: -55 }}
                                         onPress={ () => submitUpdatedTask({id, name: newTaskName, note: newNote, dueDate: newDueDate, status}) }
                                     >
                                         <Text>
