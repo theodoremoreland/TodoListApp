@@ -13,6 +13,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 // Context
 import { TasksContext } from '../contexts/TasksContext';
 
+// Controller
+import { handleCheckboxChange } from '../controllers/TaskItem.controller';
+
 // Custom components
 import TaskForm from './TaskForm';
 
@@ -23,28 +26,13 @@ interface IProps {
     task: ITask
 };
 
-const TaskItem: FC<IProps> = ({task}) : ReactElement => {
+const TaskItem: FC<IProps> = ({ task }) : ReactElement => {
     const { updateTask } = useContext(TasksContext) as ITasksContext;
     const { id, name, note, dueDate, status } = task;
     const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
     const taskIsOverdue : boolean = (new Date() > dueDate) && (status === "open") || status === "overdue";
     const statusColor : string = taskIsOverdue ? "#d73a49" : "#1485FF";
     const [markAsCompletedCountdown, setMarkAsCompletedCountdown] = useState<ReturnType<typeof setTimeout>>(setTimeout(() => undefined));
-
-    const handleCheckboxChange = (isChecked: boolean) : void => {
-        clearTimeout(markAsCompletedCountdown);
-        
-        if (isChecked) {
-            // ! Set timeout is used to delay the updating of the task as to allow the checkbox + strikethrough animation to complete
-            // ! If a user checks multiple tasks in succession too quickly, the tasks checked first do not update properly
-            // ! Because of this, the timeout is set to 500ms to ensure the updates occur quickly enough that the user can't check another task.
-            // TODO ^^^ This is not ideal. investigate a better UX solution.
-            setMarkAsCompletedCountdown(setTimeout(() => updateTask({id, name, note, dueDate, "status": "complete"}), 500));
-        }
-        else if (!isChecked && status === "complete"){
-            updateTask({id, name, note, dueDate,  "status": "open"});
-        }
-    };
 
     useEffect(() => {
         if (taskIsOverdue && task.status !== "overdue") {
@@ -68,7 +56,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
                         textStyle={styles.itemFont}
                         iconStyle={{ borderColor: "#28a745" }}
                         isChecked={task.status === "complete"}
-                        onPress={(isChecked: boolean) => handleCheckboxChange(isChecked)} 
+                        onPress={(isChecked: boolean) => handleCheckboxChange(isChecked, markAsCompletedCountdown, setMarkAsCompletedCountdown, updateTask, task)} 
                     />
                 </View>
                 <TouchableOpacity style={styles.notesIconContainer} onPress={() => setModalIsVisible(true)}>

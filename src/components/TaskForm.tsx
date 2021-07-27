@@ -16,6 +16,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 // Context
 import { TasksContext } from '../contexts/TasksContext';
 
+// Controller
+import { validateSubmission } from '../controllers/TaskForm.controller';
+
 // Styles
 import { styles } from '../styles/taskForm.styles';
 
@@ -40,23 +43,8 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
         setNewDueDate(new Date());
     };
 
-    const validateSubmission = () : boolean => {
-        let alert : string = "";
-        const fieldIsFalsy : boolean = newTaskName == "";
-        const dateIsInPast : boolean = (newDueDate < new Date());
-        alert = fieldIsFalsy ? "Task must have a name." : alert;
-        alert = dateIsInPast ? alert + "\nDue date must be in the future." : alert;
-
-        if(fieldIsFalsy || dateIsInPast) {
-            Alert.alert(alert);
-            return false;
-        };
-
-        return true;
-    };
-
     const submitNewTask = (task : ITask) : void => {
-        if (validateSubmission()) {
+        if (validateSubmission(newTaskName, newDueDate)) {
             addTask(task);
             clearForm();
             setModalIsVisible(false);
@@ -65,7 +53,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
     };
 
     const submitUpdatedTask = (task : ITask) : void => {
-        if (validateSubmission()) {
+        if (validateSubmission(newTaskName, newDueDate)) {
             updateTask(task);
             setModalIsVisible(false);
             Alert.alert("Task updated.");
