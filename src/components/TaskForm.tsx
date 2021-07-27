@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { TasksContext } from '../contexts/TasksContext';
 
 // Styles
-import { styles } from '../styles/taskForm';
+import { styles } from '../styles/taskForm.styles';
 
 interface IProps {
     title: string,
@@ -92,7 +92,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                 <TouchableOpacity
                     onPress={ () => setModalIsVisible(false) }
                 >
-                    <Text style={{marginTop: 7}}>
+                    <Text style={styles.backArrow}>
                         <Icon name="arrow-back" color="white" size={35}/>
                     </Text>
                 </TouchableOpacity>
@@ -120,7 +120,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                 />
                 <Text style={styles.label}>Due date</Text>
                 <DatePicker
-                    style={{alignSelf: "center"}}
+                    style={styles.datePicker}
                     date={newDueDate}
                     onDateChange={setNewDueDate}
                 />
@@ -128,7 +128,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                 {
                     title === "Add new task"
                         ?   <TouchableOpacity
-                                style={{ alignSelf: "flex-end", marginRight: 5 }}
+                                style={styles.addTaskButtonContainer}
                                 onPress={ () => submitNewTask({id, name: newTaskName, note: newNote, dueDate: newDueDate, status: "open"}) }
                             >
                                 <Text>
@@ -137,20 +137,20 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                             </TouchableOpacity>
                         :   <>
                                 <TouchableOpacity
-                                        style={{ alignSelf: "flex-start" }}
-                                        onPress={ () => submitRemoveTask(task) }
-                                    >
-                                        <Text>
-                                            <Icon name="delete" color="#d73a49" size={55}/>
-                                        </Text>
+                                    style={styles.deleteTaskButtonContainer}
+                                    onPress={ () => submitRemoveTask(task) }
+                                >
+                                    <Text>
+                                        <Icon name="delete" color="#d73a49" size={55}/>
+                                    </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                        style={{ alignSelf: "flex-end", marginTop: -55 }}
-                                        onPress={ () => submitUpdatedTask({id, name: newTaskName, note: newNote, dueDate: newDueDate, status}) }
-                                    >
-                                        <Text>
-                                            <Icon name="update" color="#0366d6" size={55}/>
-                                        </Text>
+                                    style={styles.updateTaskButtonContainer}
+                                    onPress={ () => submitUpdatedTask({id, name: newTaskName, note: newNote, dueDate: newDueDate, status}) }
+                                >
+                                    <Text>
+                                        <Icon name="update" color="#0366d6" size={55}/>
+                                    </Text>
                                 </TouchableOpacity>
                             </>
                 }

@@ -11,7 +11,7 @@ import { TasksContext } from '../contexts/TasksContext';
 import TaskItem from './TaskItem';
 
 // Styles
-import { styles } from '../styles/taskList';
+import { styles } from '../styles/taskList.styles';
 
 interface IProps {
     listType: "all" | "open" | "complete" | "overdue"
@@ -35,6 +35,7 @@ const TaskList: FC<IProps> = ({listType}) : ReactElement => {
                 return task.status === listType;
             };
         });
+        
         setFilteredTask(filteredTasks);
     }, [tasks, listType]);
 
