@@ -12,7 +12,7 @@ import TaskList from '../components/TaskList';
 import TasksProvider from '../contexts/TasksContext';
 
 // Styles
-import { styles } from '../styles/tasksScreen';
+import { styles } from '../styles/tasksScreen.styles';
 
 const TasksScreen: FC<any> = ({ navigation }) : ReactElement => {
     const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -21,7 +21,7 @@ const TasksScreen: FC<any> = ({ navigation }) : ReactElement => {
     useLayoutEffect(() => {
         navigation.setOptions({
           headerRight: () => (
-            <View style={{flex:1, padding: 0, margin: 0, width: 200, height: 100, }}>
+            <View style={styles.headerContainer}>
                 <Picker
                     style={{color: "white"}}
                     dropdownIconColor="#fff"
@@ -29,10 +29,10 @@ const TasksScreen: FC<any> = ({ navigation }) : ReactElement => {
                     selectedValue={listType}
                     onValueChange={(itemValue) => setListType(itemValue)}
                 >
-                    <Picker.Item label="All tasks" value="all" style={{color: "white"}}/>
-                    <Picker.Item label="Open tasks" value="open" style={{color: "white"}}/>
-                    <Picker.Item label="Completed tasks" value="complete" style={{color: "white"}}/>
-                    <Picker.Item label="Overdue tasks" value="overdue" style={{color: "white"}}/>
+                    <Picker.Item label="All tasks" value="all" style={styles.pickerItem}/>
+                    <Picker.Item label="Open tasks" value="open" style={styles.pickerItem}/>
+                    <Picker.Item label="Completed tasks" value="complete" style={styles.pickerItem}/>
+                    <Picker.Item label="Overdue tasks" value="overdue" style={styles.pickerItem}/>
                 </Picker>
             </View>
           ),
@@ -52,7 +52,7 @@ const TasksScreen: FC<any> = ({ navigation }) : ReactElement => {
             </TasksProvider>
             <TouchableOpacity
                 onPress={ () => setModalIsVisible(true) }
-                style={{alignSelf: "flex-end"}}
+                style={styles.bottomRightButton}
             >
                 <Text>
                     <Icon name="add-circle" color="#0366d6" size={65} />

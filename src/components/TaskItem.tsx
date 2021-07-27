@@ -17,7 +17,7 @@ import { TasksContext } from '../contexts/TasksContext';
 import TaskForm from './TaskForm';
 
 // Styles
-import { styles } from '../styles/taskItem';
+import { styles } from '../styles/taskItem.styles';
 
 interface IProps {
     task: ITask
@@ -55,7 +55,7 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
     return (
         <>
             <View style={styles.itemContainer}>
-                <View style={{ marginLeft: 10, marginTop: 19}}>
+                <View style={styles.checkboxContainer}>
                     <BouncyCheckbox
                         size={30}
                         fillColor="#28a745"
@@ -71,11 +71,11 @@ const TaskItem: FC<IProps> = ({task}) : ReactElement => {
                         onPress={(isChecked: boolean) => handleCheckboxChange(isChecked)} 
                     />
                 </View>
-                <TouchableOpacity style={{ alignSelf: "flex-end", marginRight: 10, marginTop: -40 }} onPress={() => setModalIsVisible(true)}>
+                <TouchableOpacity style={styles.notesIconContainer} onPress={() => setModalIsVisible(true)}>
                     <Icon name="notes" color="white" size={55}/>
                 </TouchableOpacity>
             </View>
-            <Text style={{color: statusColor, elevation: 12, fontFamily: "Rubik-Light", fontSize: 15, position: "absolute", top: 55, left: 10}}>
+            <Text style={[styles.dateText, { color: statusColor } ]}>
                     {dueDate.toLocaleString()}
             </Text>
             <TaskForm title={"Modify task"} task={task} modalIsVisible={modalIsVisible} setModalIsVisible={setModalIsVisible} />
