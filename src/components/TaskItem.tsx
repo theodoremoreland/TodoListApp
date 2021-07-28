@@ -17,7 +17,7 @@ import { TasksContext } from '../contexts/TasksContext';
 import { handleCheckboxChange } from '../controllers/TaskItem.controller';
 
 // Custom components
-import TaskForm from './TaskForm';
+import TaskForm from '../screens/TaskForm';
 
 // Styles
 import { styles } from '../styles/taskItem.styles';
@@ -26,10 +26,9 @@ interface IProps {
     task: ITask
 };
 
-const TaskItem: FC<IProps> = ({ task }) : ReactElement => {
+const TaskItem: FC<any> = ({ task, navigation }) : ReactElement => {
     const { updateTask } = useContext(TasksContext) as ITasksContext;
     const { id, name, note, dueDate, status } = task;
-    const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
     const taskIsOverdue : boolean = (new Date() > dueDate) && (status === "open") || status === "overdue";
     const statusColor : string = taskIsOverdue ? "#d73a49" : "#1485FF";
     const [markAsCompletedCountdown, setMarkAsCompletedCountdown] = useState<ReturnType<typeof setTimeout>>(setTimeout(() => undefined));
@@ -59,14 +58,13 @@ const TaskItem: FC<IProps> = ({ task }) : ReactElement => {
                         onPress={(isChecked: boolean) => handleCheckboxChange(isChecked, markAsCompletedCountdown, setMarkAsCompletedCountdown, updateTask, task)} 
                     />
                 </View>
-                <TouchableOpacity style={styles.notesIconContainer} onPress={() => setModalIsVisible(true)}>
+                <TouchableOpacity style={styles.notesIconContainer} onPress={() => navigation.navigate("Task Form", { title : "Update Task", task: task})}>
                     <Icon name="notes" color="white" size={55}/>
                 </TouchableOpacity>
             </View>
             <Text style={[styles.dateText, { color: statusColor } ]}>
                     {dueDate.toLocaleString()}
             </Text>
-            <TaskForm title={"Modify task"} task={task} modalIsVisible={modalIsVisible} setModalIsVisible={setModalIsVisible} />
         </>
     );
 };

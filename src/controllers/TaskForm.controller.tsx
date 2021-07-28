@@ -1,6 +1,4 @@
-import { 
-    Alert
-} from "react-native";
+import { Alert } from "react-native";
 
 export const validateSubmission = (newTaskName : string, newDueDate : Date) : boolean => {
     let alert : string = "";
