@@ -1,22 +1,28 @@
 // React
-import React, { FC, ReactElement, useState, useLayoutEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { FC, ReactElement, useState, useLayoutEffect, useEffect, useContext } from 'react';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 
 // Third party
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Picker } from '@react-native-picker/picker';
 
-// Custom components
-import TaskForm from '../components/TaskForm';
-import TaskList from '../components/TaskList';
-import TasksProvider from '../contexts/TasksContext';
+// Context
+import { TasksContext } from '../contexts/TasksContext';
+
+// Controller
+import { filterTasks } from '../controllers/TaskList.controller';
+
+// Components
+import TaskItem from '../components/TaskItem';
 
 // Styles
-import { styles } from '../styles/tasksScreen.styles';
+import { styles } from '../styles/taskList.styles';
 
-const TasksScreen: FC<any> = ({ navigation }) : ReactElement => {
-    const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
+
+const TaskList: FC<any> = ({ navigation }) : ReactElement => {
+    const { tasks } = useContext(TasksContext) as ITasksContext;
     const [listType, setListType] = useState<"all" | "open" | "complete" | "overdue">("all");
+    const [filteredTasks, setFilteredTask] = useState<Array<ITask>>([]);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -37,21 +43,27 @@ const TasksScreen: FC<any> = ({ navigation }) : ReactElement => {
             </View>
           ),
         });
-      }, [navigation, listType]);
+      }, [listType, navigation]);
+
+      useEffect(() => {
+        // Setting filteredTasks here to ensure filtering on all tasks
+        // (i.e. doing so in declaration leads to empty lists in some cases)
+        const filteredTasks = filterTasks([...tasks], listType);
+
+        setFilteredTask(filteredTasks);
+    }, [tasks, listType]);
 
     return (
         <View style={styles.home}>
-            <TasksProvider>
-                <TaskList listType={listType}/>
-                <TaskForm
-                    title="Add new task"
-                    task={{id: -1, name: "", note: "", dueDate: new Date(), status: "open"}}
-                    modalIsVisible={modalIsVisible}
-                    setModalIsVisible={setModalIsVisible}
-                />
-            </TasksProvider>
+            <FlatList
+                style={styles.list}
+                data={filteredTasks}
+                renderItem={({item}) => <TaskItem task={item} navigation={navigation} />}
+                keyExtractor={task => `Task #${task.id}`}
+            /> 
             <TouchableOpacity
-                onPress={ () => setModalIsVisible(true) }
+                onPress={ () => navigation.navigate("Task Form", { title :"Add new task" } )
+                }
                 style={styles.bottomRightButton}
             >
                 <Text>
@@ -62,4 +74,4 @@ const TasksScreen: FC<any> = ({ navigation }) : ReactElement => {
     );
 };
 
-export default TasksScreen;
+export default TaskList;

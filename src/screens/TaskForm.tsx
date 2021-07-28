@@ -30,24 +30,18 @@ interface IProps {
 };
 
 // TODO test performance
-const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible}) : ReactElement => {
+const TaskForm: FC<any> = ({ route, navigation }) : ReactElement => {
     const { addTask, updateTask, removeTask } = useContext(TasksContext) as ITasksContext;
-    const { id, name, note, dueDate, status } = task;
+    const { title, task } = route.params 
+    const { id, name, note, dueDate, status } = task ? task : {id: -1, name: "", note: "", dueDate: new Date(), status: "open"};
     const [newTaskName, setNewTaskName] = useState<string>(name);
     const [newNote, setNewNote] = useState<string>(note);
     const [newDueDate, setNewDueDate] = useState<Date>(dueDate);
 
-    const clearForm = () : void => {
-        setNewTaskName("");
-        setNewNote("");
-        setNewDueDate(new Date());
-    };
-
     const submitNewTask = (task : ITask) : void => {
         if (validateSubmission(newTaskName, newDueDate)) {
             addTask(task);
-            clearForm();
-            setModalIsVisible(false);
+            navigation.goBack();
             Alert.alert("Task added.");
         };
     };
@@ -55,39 +49,19 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
     const submitUpdatedTask = (task : ITask) : void => {
         if (validateSubmission(newTaskName, newDueDate)) {
             updateTask(task);
-            setModalIsVisible(false);
+            navigation.goBack();
             Alert.alert("Task updated.");
         };
     };
 
     const submitRemoveTask = (task : ITask) : void => {
             removeTask(task);
-            setModalIsVisible(false);
+            navigation.goBack();
             Alert.alert("Task deleted.");
     };
 
     return (
-        <Modal
-            style={styles.modal}
-            animationType="slide"
-            transparent={false}
-            visible={modalIsVisible}
-            onRequestClose={() => {
-                setModalIsVisible(!modalIsVisible);
-            }}
-        >   
-            <View style={styles.modalHeader}>
-                <TouchableOpacity
-                    onPress={ () => setModalIsVisible(false) }
-                >
-                    <Text style={styles.backArrow}>
-                        <Icon name="arrow-back" color="white" size={35}/>
-                    </Text>
-                </TouchableOpacity>
-                <Text style={styles.title}>
-                        <Text>{title}</Text>
-                </Text>
-            </View>
+        <>
             <View style={styles.form}>
                 <Text style={styles.label}>Name of task</Text>
                 <TextInput
@@ -143,7 +117,7 @@ const TaskForm: FC<IProps> = ({ title, task, modalIsVisible, setModalIsVisible})
                             </>
                 }
             </View>
-        </Modal>
+            </>
     );
 };
 

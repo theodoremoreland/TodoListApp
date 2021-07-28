@@ -7,7 +7,7 @@ interface ITask {
 }
 
 // TODO change this, maybe?
-type ITaskList = any;
+type ITaskList = any[];
 
 interface ITasksContext {
     tasks: ITaskList,

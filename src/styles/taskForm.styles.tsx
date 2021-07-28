@@ -22,9 +22,8 @@ export const styles = StyleSheet.create({
         top: 13,
         left: 45
     },
-    backArrow : {marginTop: 7},
     form: {
-        marginTop: 65,
+        marginTop: 0,
     },
     datePicker: {alignSelf: "center"},
     label: {
@@ -53,7 +52,7 @@ export const styles = StyleSheet.create({
         color: "white",
         marginTop: 15
     },
-    addTaskButtonContainer : { alignSelf: "flex-end", marginRight: 5 },
+    addTaskButtonContainer : { alignSelf: "flex-end", marginRight: 15 },
     deleteTaskButtonContainer : { alignSelf: "flex-start" },
     updateTaskButtonContainer: { alignSelf: "flex-end", marginTop: -55 }
 

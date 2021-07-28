@@ -11,9 +11,10 @@ import { scheduleNotification, cancelNotification } from '../Notifications';
 
 export const TasksContext = React.createContext<ITasksContext | null>(null);
 
-const TasksProvider: FC<ReactNode> = ({children}) : ReactElement => {
+const TasksProvider: FC<ReactNode> = ({ children }) : ReactElement => {
     const [tasks, setTasks] = useState<ITaskList>([]);
-
+    console.log("context rendered");
+    console.log(tasks);
     // Use a Ref to store the realm rather than the state because it is not
     // directly rendered, so updating it should not trigger a re-render as using
     // state would.
@@ -40,17 +41,17 @@ const TasksProvider: FC<ReactNode> = ({children}) : ReactElement => {
 
     const removeTask = (task : ITask) : void => {
         console.log(`removing.... ${JSON.stringify(task)}`);
+        // TODO make this async
+        cancelNotification(task.id);
 
         const realm = realmRef.current;
 
         realm.write(() => {
             realm.delete(task);
+            console.log("deleted")
             const q : Results<Object> = realm.objects("Task").sorted("dueDate");
             setTasks([...q]);
         });
-
-        // TODO make this async
-        cancelNotification(task.id);
     };
 
     const updateTask = (task : ITask) : void => {
