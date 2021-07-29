@@ -13,12 +13,22 @@ export const TasksContext = React.createContext<ITasksContext | null>(null);
 
 const TasksProvider: FC<ReactNode> = ({ children }) : ReactElement => {
     const [tasks, setTasks] = useState<ITaskList>([]);
-    console.log("context rendered");
-    console.log(tasks);
     // Use a Ref to store the realm rather than the state because it is not
     // directly rendered, so updating it should not trigger a re-render as using
     // state would.
     const realmRef = useRef<any>(null);
+
+    // Data needs to be copied and converted from Realm so that modifications (mainly, deletions) can happen
+    // in the database BEFORE triggering a re-render for any dependent components. Not doing so results in
+    // an "Accessing object of type X which has been invalidated or deleted" error.
+    // In other words, components will break because data that it's dependent on was removed while it was still using it.
+    // This wasn't an issue before passing data / tasks to components via navigation, so navigation must be what's holding on
+    // to the deleted data. It's easier to just copy here instead of trying to clear invalid data from navigation.
+    const extractTasksFromRealm = (tasks: ITaskList) => {
+        return tasks.map(task => ( 
+            {id: task.id, name: task.name, note: task.note, dueDate: task.dueDate, status: task.status} 
+        ));
+    };
 
     const addTask = (task : ITask) : void => {
         console.log(`adding.... ${JSON.stringify(task)}`);
@@ -32,7 +42,8 @@ const TasksProvider: FC<ReactNode> = ({ children }) : ReactElement => {
             // Creates require class instance and will not work with object literals.
             realm.create("Task", new Task(newID, task.name, task.note, task.dueDate, task.status));
             const q : Results<Object> = realm.objects("Task").sorted("dueDate");
-            setTasks([...q]);
+
+            setTasks(extractTasksFromRealm([...q]));
         });
 
         // TODO make this async
@@ -40,30 +51,31 @@ const TasksProvider: FC<ReactNode> = ({ children }) : ReactElement => {
     };
 
     const removeTask = (task : ITask) : void => {
-        console.log(`removing.... ${JSON.stringify(task)}`);
+        const realm = realmRef.current;
+        const taskObjectInRealm = realm.objectForPrimaryKey("Task", task.id);
+
+        console.log(`removing.... ${JSON.stringify(taskObjectInRealm)}`);
         // TODO make this async
         cancelNotification(task.id);
 
-        const realm = realmRef.current;
-
         realm.write(() => {
-            realm.delete(task);
+            realm.delete(taskObjectInRealm);
             console.log("deleted")
             const q : Results<Object> = realm.objects("Task").sorted("dueDate");
-            setTasks([...q]);
-        });
+            setTasks(extractTasksFromRealm([...q]));
+        }); 
     };
 
     const updateTask = (task : ITask) : void => {
         console.log(`updating.... ${JSON.stringify(task)}`);
 
         const realm = realmRef.current;
-
+        
         realm.write(() => {
             // Updates (and creates, in general) require class instance and will not work with object literals.
             realm.create("Task", new Task(task.id, task.name, task.note, task.dueDate, task.status), "modified");
             const q : Results<Object> = realm.objects("Task").sorted("dueDate");
-            setTasks([...q]);
+            setTasks(extractTasksFromRealm([...q]));
         });
 
         // TODO make this async
@@ -86,10 +98,10 @@ const TasksProvider: FC<ReactNode> = ({ children }) : ReactElement => {
             const tasks : Results<Object> = realm.objects("Task");
             let sortedTasks : Results<Object> = tasks.sorted("dueDate");
 
-            setTasks([...sortedTasks]);
+            setTasks(extractTasksFromRealm([...sortedTasks]));
 
             sortedTasks.addListener(() => {
-                setTasks([...sortedTasks]);
+                setTasks(extractTasksFromRealm([...sortedTasks]));
             });
         }).catch(e => {throw new Error(e)});
 

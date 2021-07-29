@@ -17,6 +17,7 @@ import TaskItem from '../components/TaskItem';
 
 // Styles
 import { styles } from '../styles/taskList.styles';
+import { set } from 'react-native-reanimated';
 
 
 const TaskList: FC<any> = ({ navigation }) : ReactElement => {
@@ -48,17 +49,18 @@ const TaskList: FC<any> = ({ navigation }) : ReactElement => {
       useEffect(() => {
         // Setting filteredTasks here to ensure filtering on all tasks
         // (i.e. doing so in declaration leads to empty lists in some cases)
-        const filteredTasks = filterTasks([...tasks], listType);
+        const filteredTasks = filterTasks(tasks, listType);
 
         setFilteredTask(filteredTasks);
-    }, [tasks, listType]);
+    }, [listType, tasks]);
+
 
     return (
         <View style={styles.home}>
             <FlatList
                 style={styles.list}
                 data={filteredTasks}
-                renderItem={({item}) => <TaskItem task={item} navigation={navigation} />}
+                renderItem={({item}) => <TaskItem task={{ id: item.id, name: item.name, note: item.note, dueDate: item.dueDate, status: item.status }} navigation={navigation} />}
                 keyExtractor={task => `Task #${task.id}`}
             /> 
             <TouchableOpacity
