@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import TasksProvider from './contexts/TasksContext';
 
 // Screens
-import TaskForm from './screens/TaskForm';
+import TaskForm from './screens/TaskForm'
 import TaskList from './screens/TaskList';
 
 const Stack = createStackNavigator();

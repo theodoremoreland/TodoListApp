@@ -58,7 +58,7 @@ const TaskItem: FC<any> = ({ task, navigation }) : ReactElement => {
                         onPress={(isChecked: boolean) => handleCheckboxChange(isChecked, markAsCompletedCountdown, setMarkAsCompletedCountdown, updateTask, task)} 
                     />
                 </View>
-                <TouchableOpacity style={styles.notesIconContainer} onPress={() => navigation.navigate("Task Form", { title : "Update Task", task: { id: task.id, name: task.name, note: task.note, dueDate: task.dueDate, status: task.status } })}>
+                <TouchableOpacity style={styles.notesIconContainer} onPress={() => navigation.navigate("Task Form", { title : "Update Task", task })}>
                     <Icon name="notes" color="white" size={55}/>
                 </TouchableOpacity>
             </View>
