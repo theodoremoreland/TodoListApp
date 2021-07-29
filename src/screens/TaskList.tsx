@@ -17,7 +17,6 @@ import TaskItem from '../components/TaskItem';
 
 // Styles
 import { styles } from '../styles/taskList.styles';
-import { set } from 'react-native-reanimated';
 
 
 const TaskList: FC<any> = ({ navigation }) : ReactElement => {
@@ -60,7 +59,7 @@ const TaskList: FC<any> = ({ navigation }) : ReactElement => {
             <FlatList
                 style={styles.list}
                 data={filteredTasks}
-                renderItem={({item}) => <TaskItem task={{ id: item.id, name: item.name, note: item.note, dueDate: item.dueDate, status: item.status }} navigation={navigation} />}
+                renderItem={({item}) => <TaskItem task={item} navigation={navigation} />}
                 keyExtractor={task => `Task #${task.id}`}
             /> 
             <TouchableOpacity
