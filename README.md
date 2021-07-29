@@ -44,7 +44,7 @@ A mobile application for managing a todo-list. The application was built solely 
 ## Home screen after one task becomes overdue (timestamp turns red).
 <img src="presentation/11.PNG" width="300">
 
-## Receiving a notification for a task that is due (the simulator doesn't allows display text properly, but the notifications, keyboard, etc display properly when using actual device).
+## Receiving a notification for a task that is due (the simulator doesn't always display text properly, but the notifications, keyboard, etc display properly when using actual device).
 <img src="presentation/12.PNG" width="300">
 
 ## Another view of notification.
